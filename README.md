@@ -6,8 +6,6 @@ Software Engineering 567, Team 11, Minor Project.
 Here are the steps for running the code in a virtual environment on
 Ubuntu 20.04.
 
-Install git and virtualenv
-
 ```
     # install git and virtualenv
     sudo apt install git python3-virtualenv
@@ -18,7 +16,7 @@ Install git and virtualenv
     . bin/activate
 
     # clone our repository and install python package dependencies
-    # Note: cloning using this URL if for Read Only access only. Need
+    # Note: cloning using this URL is for Read Only access. Need
     # to set-up access token or ssh to be able to commit back
     git clone https://github.com/greg300/ECE567_Team11_Minor
     cd ECE567_Team11_Minor
