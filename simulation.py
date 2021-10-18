@@ -101,7 +101,7 @@ class Simulation:
         # Calculate wait times.
         wait_times = []
         for p in pairs:
-            wait_times.append(p[1] / AVG_VELOCITY * 60)
+            wait_times.append(p[1] / AVG_VELOCITY * 60 * 60)
         
         # Return the maximum wait time.
         return max(wait_times)
