@@ -1,5 +1,6 @@
-from typing import List
+from typing import List, Tuple
 from numpy import random
+import math
 
 from structures import Driver, Rider
 import constants
@@ -56,6 +57,14 @@ class Simulation:
             y = random.uniform(min_y, max_y)
             riders.append(Rider(x, y))
         return riders
+
+    @staticmethod
+    def get_distance(p1 : Tuple[float, float], p2: Tuple[float, float]):
+        """Calculate the distance between two points.
+        :param p1: Point A
+        :param p2: Point B
+        :returns: distance between Point A and Point B"""
+        return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
     def start(self, num_drivers: int):
         """Start running a simulation for a given number of drivers.

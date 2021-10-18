@@ -29,5 +29,15 @@ class TestSimulation(unittest.TestCase):
             self.assertTrue(riders[i].x <= MAX_X and riders[i].x >= MIN_X)
             self.assertTrue(riders[i].y <= MAX_Y and riders[i].y >= MIN_Y)
 
+    def test_get_distance(self):
+        p1 = (MIN_X, MIN_Y)
+        p2 = (MAX_X, MAX_Y)
+
+        calculated_dist = round(Simulation.get_distance(p1, p2), 6)
+        real_dist = 565.685425
+        self.assertEqual(calculated_dist, real_dist)
+
+
+
 if __name__ == '__main__':
     unittest.main()
