@@ -9,6 +9,7 @@ MAX_X = constants.MAX_X
 MIN_Y = constants.MIN_Y
 MAX_Y = constants.MAX_Y
 NUM_RIDERS = constants.NUM_RIDERS
+AVG_VELOCITY = constants.AVG_VELOCITY
 
 class Simulation:
     """Class to hold all details of the simulation."""
@@ -66,9 +67,40 @@ class Simulation:
         :returns: distance between Point A and Point B"""
         return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
+    
+
     def start(self, num_drivers: int):
         """Start running a simulation for a given number of drivers.
         :param num_drivers: The number of Drivers to be tested"""
         # Generate Drivers and Riders.
         drivers = self.generate_drivers(num_drivers, MIN_X, MAX_X, MIN_Y, MAX_Y)
         riders = self.generate_riders(NUM_RIDERS, MIN_X, MAX_X, MIN_Y, MAX_Y)
+
+        # Calculate distances from all Drivers to all Riders.
+        distances = [[0 for i in range(NUM_RIDERS)] for j in range(num_drivers)]
+        for i in range(num_drivers):
+            d = drivers[i]
+            for j in range(NUM_RIDERS):
+                r = riders[j]
+                dist = self.get_distance((d.x, d.y), (r.x, r.y))
+                distances[i][j] = dist
+        
+        # Pair Drivers with the Rider at minimum distance to them.
+        pairs = []  # Pairs Driver to distance to their Rider.
+        max_distance = self.get_distance((MIN_X, MIN_Y), (MAX_X, MAX_Y)) + 1  # For marking paired Riders.
+        for i in range(num_drivers):
+            d = drivers[i]
+            min_dist = min(distances[i])
+            min_dist_rider = distances[i].index(min_dist)
+            pairs.append((d, min_dist))
+            for j in range(num_drivers):
+                distances[j][min_dist_rider] = max_distance  # Mark that this Rider has been paired.
+
+        # Calculate wait times.
+        wait_times = []
+        for p in pairs:
+            wait_times.append(p[1] / AVG_VELOCITY * 60)
+        
+        # Return the maximum wait time.
+        return max(wait_times)
+        
