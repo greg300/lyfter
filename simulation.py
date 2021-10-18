@@ -89,6 +89,8 @@ class Simulation:
         pairs = []  # Pairs Driver to distance to their Rider.
         max_distance = self.get_distance((MIN_X, MIN_Y), (MAX_X, MAX_Y)) + 1  # For marking paired Riders.
         for i in range(num_drivers):
+            if i >= NUM_RIDERS:  # End once all Riders are paired.
+                break
             d = drivers[i]
             min_dist = min(distances[i])
             min_dist_rider = distances[i].index(min_dist)
