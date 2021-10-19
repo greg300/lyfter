@@ -26,7 +26,9 @@ class Analyzer():
 
 
     def to_scatterplot(self):
-        fig = plt.figure()
+        plt.style.use('ggplot')
+
+        fig = plt.figure(figsize=(14,8))
 
         ax = fig.add_subplot()
 
@@ -36,7 +38,9 @@ class Analyzer():
 
         drivers=sorted(self._df.drivers.unique())
 
-        ax.set_xticks(drivers)
+        step = len(drivers) // 20
+
+        ax.set_xticks(drivers[::step])
 
         ax.set_ylim(0,float(math.ceil(self._df.maxmins.max())))
 
@@ -46,7 +50,7 @@ class Analyzer():
 
 
 if __name__=='__main__':
-    usage="""Usage: analyze.py CSVFILE"""
+    usage="""Usage: analyzer.py CSVFILE"""
 
     if not len(sys.argv)==2:
         print(usage, file=sys.stderr)
