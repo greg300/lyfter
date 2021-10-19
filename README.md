@@ -41,7 +41,7 @@ Git. Here are directions for running `tests_simulation.py`:
 
 1. Navigate to Microsoft store and install Python. Python 3.9 is
    currently available.
-2. Install VSCode from the [download page](code.visualstudio.com/Download).
+2. Install VSCode from the [download page](https://code.visualstudio.com/Download).
 3. Install Git. I was able to do this within VSCode by selecting the
    Source code icon on the left and "Clone Repository". The download
    likely came from [git-scm.com](https://git-scm.com/download/win). Once it is
