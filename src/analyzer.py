@@ -46,7 +46,7 @@ class Analyzer():
 
         ax.set_ylabel('maximum wait time (mins)')
    
-        fig.savefig('../drivers_vs_time.png')
+        fig.savefig('drivers_vs_time.png')
 
 
 if __name__=='__main__':

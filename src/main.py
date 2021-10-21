@@ -19,7 +19,7 @@ for num_drivers in range(100, 150):
         max_wait = s.start(num_drivers)
         results.append([NUM_RIDERS, num_drivers, max_wait])
 
-with open('../results.csv', 'w', newline='') as csvfile:
+with open('results.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile, delimiter=',')
     writer.writerow(["customers", "drivers", "maxseconds"])
     writer.writerows(results)
