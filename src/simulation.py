@@ -104,5 +104,5 @@ class Simulation:
             wait_times.append(p[1] / AVG_VELOCITY * 60 * 60)
         
         # Return the maximum wait time.
-        return max(wait_times)
-        
+        return max(wait_times),drivers,riders
+

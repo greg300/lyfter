@@ -1,6 +1,6 @@
 import unittest
 
-from analyzer import Analyzer
+from analyzer import ResultsAnalyzer
 
 class TestAnalyzer(unittest.TestCase):
     """

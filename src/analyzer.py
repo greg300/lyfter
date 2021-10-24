@@ -5,16 +5,17 @@ import os
 import sys
 
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
 
 
-class Analyzer():
+class ResultsAnalyzer():
     @staticmethod
     def fromCSV(csvfile):
-        return Analyzer(pd.read_csv(csvfile))
+        return ResultsAnalyzer(pd.read_csv(csvfile))
 
 
-    def __init__(self,dataframe):
+    def __init__(self, dataframe):
         self._df = dataframe
 
         self._df['maxmins']=self._df.maxseconds/60.0
@@ -38,32 +39,85 @@ class Analyzer():
 
         drivers=sorted(self._df.drivers.unique())
 
-        step = len(drivers) // 20
+        step = max(1, len(drivers) // 20)
 
         ax.set_xticks(drivers[::step])
 
         ax.set_ylim(0,float(math.ceil(self._df.maxmins.max())))
 
         ax.set_ylabel('maximum wait time (mins)')
-   
+
         fig.savefig('drivers_vs_time.png')
 
 
-if __name__=='__main__':
-    usage="""Usage: analyzer.py CSVFILE"""
+class LocationsAnalyzer():
+    @staticmethod
+    def fromCSV(csvfile):
+        return LocationsAnalyzer(pd.read_csv(csvfile))
 
-    if not len(sys.argv)==2:
+
+    def __init__(self, dataframe):
+        self._df = dataframe
+
+        orange = matplotlib.colors.hex2color('#3465a4')
+        blue = matplotlib.colors.hex2color('#ff8000')
+        colormap = { 'rider':orange, 'driver':blue }
+        self._df['color'] = \
+            self._df.type.apply(lambda x: colormap[x])
+
+        self._df['x_meters'] = self._df.x * 10
+        self._df['y_meters'] = self._df.y * 10
+
+
+
+    @property
+    def dataframe(self):
+        return self._df
+
+
+    def to_scatterplot(self):
+        plt.style.use('ggplot')
+
+        fig = plt.figure(figsize=(12,12))
+
+        ax = fig.add_subplot()
+
+        self._df.plot('x_meters', 'y_meters', kind='scatter', ax=ax, c=self._df.color)
+
+        ax.set_title('Rider and Driver Locations')
+
+        ax.set_xlabel('x (meters)')
+        ax.set_ylabel('y (meters)')
+
+        counts = self._df.groupby(['type']).count()
+        num_drivers = counts.loc['driver', 'x']
+        num_riders = counts.loc['rider', 'x']
+        outfile = 'locations_%04d_riders_by_%04d_drivers.png' % (num_riders, num_drivers)
+
+        fig.savefig(outfile)
+
+
+if __name__=='__main__':
+    usage="""Usage: analyzer.py results|locations CSVFILE"""
+
+    if not len(sys.argv)==3:
         print(usage, file=sys.stderr)
         exit(1)
 
-    csvfile=sys.argv[1]
+    analysis = sys.argv[1].lower()
+    csvfile = sys.argv[2]
 
     if not os.path.exists(csvfile):
         print(f'Could not find "{csvfile}". Quitting.', file=sys.stderr)
         exit(2)
 
-    a = Analyzer.fromCSV(csvfile)
-       
+    a = None
+
+    if analysis == 'results':
+        a = ResultsAnalyzer.fromCSV(csvfile)
+    else:
+        a = LocationsAnalyzer.fromCSV(csvfile)
+
     print(a.dataframe.head())
 
     a.to_scatterplot()
