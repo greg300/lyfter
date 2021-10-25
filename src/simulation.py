@@ -63,8 +63,8 @@ class Simulation:
         """
         riders = []
         for _ in range(num_riders):
-            x = random.uniform(min_x, max_x)
-            y = random.uniform(min_y, max_y)
+            x = random.normal(mu_r_x, sigma_R)
+            y = random.normal(mu_r_y, sigma_R)
             riders.append(Rider(x, y))
         return riders
 
