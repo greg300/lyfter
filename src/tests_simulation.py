@@ -21,7 +21,7 @@ class TestSimulation(unittest.TestCase):
 
     def test_generate_riders(self):
         num_riders = 100
-        riders = Simulation.generate_drivers(num_riders, MIN_X, MAX_X, MIN_Y, MAX_Y)
+        riders = Simulation.generate_riders(num_riders, MIN_X, MAX_X, MIN_Y, MAX_Y)
 
         self.assertTrue(riders is not None)
         self.assertEqual(len(riders), num_riders)
