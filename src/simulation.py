@@ -10,6 +10,15 @@ MIN_Y = constants.MIN_Y
 MAX_Y = constants.MAX_Y
 NUM_RIDERS = constants.NUM_RIDERS
 AVG_VELOCITY = constants.AVG_VELOCITY
+sigma_R = constants.sigma_R
+sigma_D = constants.sigma_D
+mu_r_x = constants.mu_r_x
+mu_r_y = constants.mu_r_y
+mu_d_e = constants.mu_d_e
+mu_d_w = constants.mu_d_w
+mu_d_s = constants.mu_d_s
+mu_d_n = constants.mu_d_n
+
 
 class Simulation:
     """Class to hold all details of the simulation."""
