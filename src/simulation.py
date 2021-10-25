@@ -10,14 +10,8 @@ MIN_Y = constants.MIN_Y
 MAX_Y = constants.MAX_Y
 NUM_RIDERS = constants.NUM_RIDERS
 AVG_VELOCITY = constants.AVG_VELOCITY
-sigma_R = constants.sigma_R
-sigma_D = constants.sigma_D
-mu_r_x = constants.mu_r_x
-mu_r_y = constants.mu_r_y
-mu_d_e = constants.mu_d_e
-mu_d_w = constants.mu_d_w
-mu_d_s = constants.mu_d_s
-mu_d_n = constants.mu_d_n
+SIGMA_R = constants.sigma_R
+SIGMA_D = constants.sigma_D
 
 
 class Simulation:
@@ -39,10 +33,38 @@ class Simulation:
         :returns: a list of Drivers generated
         """
         drivers = []
-        for _ in range(num_drivers):
-            x = random.uniform(min_x, max_x)
-            y = random.uniform(min_y, max_y)
+        center_x = (min_x + max_x) / 2
+        center_y = (min_y + max_y) / 2
+
+        mu_d_e = (min_x + center_x) / 2  # Driver center, east
+        mu_d_w = (center_x + max_x) / 2  # Driver center, west
+        mu_d_s = (min_y + center_y) / 2  # Driver center, south
+        mu_d_n = (center_y + max_y) / 2  # Driver center, north
+
+        # Generate SW Driver quadrant positions.
+        for _ in range(0, int(num_drivers / 4)):
+            x = random.normal(mu_d_w, SIGMA_D)
+            y = random.normal(mu_d_s, SIGMA_D)
             drivers.append(Driver(x, y))
+
+        # Generate NW Driver quadrant positions.
+        for _ in range(int(num_drivers / 4), int(2 * num_drivers / 4)):
+            x = random.normal(mu_d_w, SIGMA_D)
+            y = random.normal(mu_d_n, SIGMA_D)
+            drivers.append(Driver(x, y))
+
+        # Generate SE Driver quadrant positions.
+        for _ in range(int(2 * num_drivers / 4), int(3 * num_drivers / 4)):
+            x = random.normal(mu_d_e, SIGMA_D)
+            y = random.normal(mu_d_s, SIGMA_D)
+            drivers.append(Driver(x, y))
+
+        # Generate NE Driver quadrant positions.
+        for _ in range(int(3 * num_drivers / 4), num_drivers):
+            x = random.normal(mu_d_e, SIGMA_D)
+            y = random.normal(mu_d_n, SIGMA_D)
+            drivers.append(Driver(x, y))
+
         return drivers
 
     @staticmethod
@@ -62,9 +84,12 @@ class Simulation:
         :returns: a list of Riders generated
         """
         riders = []
+        center_x = (min_x + max_x) / 2
+        center_y = (min_y + max_y) / 2
+
         for _ in range(num_riders):
-            x = random.normal(mu_r_x, sigma_R)
-            y = random.normal(mu_r_y, sigma_R)
+            x = random.normal(center_x, SIGMA_R)
+            y = random.normal(center_y, SIGMA_R)
             riders.append(Rider(x, y))
         return riders
 
