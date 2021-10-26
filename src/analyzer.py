@@ -9,6 +9,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
+matplotlib.rcParams["figure.dpi"] = 200.0
+
+
 class ResultsAnalyzer():
     @staticmethod
     def fromCSV(csvfile):

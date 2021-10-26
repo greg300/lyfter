@@ -40,8 +40,8 @@ class TestAnalyzer(unittest.TestCase):
         for i in range(len(csv_data.dataframe['drivers'])):
             self.assertTrue(csv_data.dataframe['drivers'][i] <= max_drivers)
             self.assertTrue(csv_data.dataframe['drivers'][i] >= min_drivers)
-        self.assertEqual(max_drivers, 200-1)
-        self.assertEqual(min_drivers, 100)
+        self.assertEqual(max_drivers, 4900)
+        self.assertEqual(min_drivers, 1000)
 
     def test_riders(self):
         csv_data = ResultsAnalyzer.fromCSV('results.csv')
@@ -53,9 +53,9 @@ class TestAnalyzer(unittest.TestCase):
 
     def test_iterate(self):
         csv_data = ResultsAnalyzer.fromCSV('results.csv')
-        iter = len(csv_data.dataframe)/50 
-        print(f'You have ran {iter} iterations to generate the riders and drivers')
-        iter_bool = iter > 0 
+        iters = len(csv_data.dataframe)
+        print(f'You have ran {iters} iterations to generate the riders and drivers')
+        iter_bool = iters == 800
         self.assertEqual(iter_bool,True)
 
 if __name__ == '__main__':
