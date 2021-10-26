@@ -7,7 +7,7 @@ import sys
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
-
+from matplotlib.patches import Patch
 
 class ResultsAnalyzer():
     @staticmethod
@@ -59,12 +59,6 @@ class LocationsAnalyzer():
     def __init__(self, dataframe):
         self._df = dataframe
 
-        orange = matplotlib.colors.hex2color('#3465a4')
-        blue = matplotlib.colors.hex2color('#ff8000')
-        colormap = { 'rider':orange, 'driver':blue }
-        self._df['color'] = \
-            self._df.type.apply(lambda x: colormap[x])
-
         self._df['x_meters'] = self._df.x * 10
         self._df['y_meters'] = self._df.y * 10
 
@@ -78,6 +72,13 @@ class LocationsAnalyzer():
     def to_scatterplot(self):
         plt.style.use('ggplot')
 
+        orange = matplotlib.colors.hex2color('#3465a4')
+        blue = matplotlib.colors.hex2color('#ff8000')
+        colormap = { 'rider':orange, 'driver':blue }
+
+        self._df['color'] = \
+            self._df.type.apply(lambda x: colormap[x])
+
         fig = plt.figure(figsize=(12,12))
 
         ax = fig.add_subplot()
@@ -85,6 +86,11 @@ class LocationsAnalyzer():
         self._df.plot('x_meters', 'y_meters', kind='scatter', ax=ax, c=self._df.color)
 
         ax.set_title('Rider and Driver Locations')
+
+        matplotlib.rcParams["legend.loc"] = 'upper right'
+        ax.legend([Patch(color=blue), Patch(color=orange)],
+                  ['drivers', 'riders'])
+
 
         ax.set_xlabel('x (meters)')
         ax.set_ylabel('y (meters)')
