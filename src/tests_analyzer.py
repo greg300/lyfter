@@ -1,12 +1,7 @@
 import unittest
 
 from analyzer import ResultsAnalyzer
-from simulation import Simulation
-import numpy as np
 import constants
-
-import pandas as pd
-import matplotlib.pyplot as plt
 
 class TestAnalyzer(unittest.TestCase):
 
