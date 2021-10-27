@@ -1,6 +1,36 @@
 # Team11_Minor
 Software Engineering 567, Team 11, Minor Project.
 
+---
+
+## Running on macOS 10.15+
+
+Here are the steps for running the project on a local installation of Python 3 on macOS Catalina.
+
+### 1. Install all requirements:
+
+`$ pip install <requirement>` for all requirements in `requirements.txt`
+
+### 2. Run program in default mode (get `results.csv` output file):
+
+`$ python src/main.py`
+
+### 3. Run program in answer mode (get a minimum number of Drivers):
+
+`$ python src/main.py 2`
+
+Note that changing `STEP_DRIVERS` in `constants.py` will yield a more precise answer.
+
+### 4. Run unittests for `simulation.py`:
+
+`$ python src/tests_simulation.py`
+
+### 5. Run unittests for `analyzer.py`:
+
+`$ python src/tests_analyzer.py`
+
+---
+
 ## Running on Ubuntu 20.04
 
 Here are the steps for running the code in a virtual environment on
@@ -22,8 +52,8 @@ Ubuntu 20.04.
     cd ECE567_Team11_Minor/src
     pip install -r requirements.txt
 
-    # run the simulator over 100 iterations
-    python3 main.py 100
+    # run the simulator in the default mode
+    python3 main.py
 
     # run analyzer.py and view the output graph
     python3 analyzer.py ../results.csv
@@ -33,6 +63,7 @@ Ubuntu 20.04.
     deactivate
 ```
 
+---
 
 ## Running on Windows
 
