@@ -9,6 +9,8 @@ MAX_X = constants.MAX_X
 MIN_Y = constants.MIN_Y
 MAX_Y = constants.MAX_Y
 NUM_RIDERS = constants.NUM_RIDERS
+MIN_DRIVERS = constants.MIN_DRIVERS
+MAX_DRIVERS = constants.MAX_DRIVERS
 AVG_VELOCITY = constants.AVG_VELOCITY
 DISTRIBUTION_MODE = constants.DISTRIBUTION_MODE
 SIGMA_R = constants.sigma_R
@@ -17,6 +19,21 @@ SIGMA_D = constants.sigma_D
 
 class Simulation:
     """Class to hold all details of the simulation."""
+    def __init__(self) -> None:
+        self.validate_constants()
+
+    def validate_constants(self) -> None:
+        if MIN_X >= MAX_X:
+            raise Exception("MIN_X is greater than or equal to MAX_X.")
+        if MIN_Y >= MAX_Y:
+            raise Exception("MIN_Y is greater than or equal to MAX_Y.")
+        if MIN_DRIVERS < NUM_RIDERS:
+            raise Exception("Insufficient MIN_DRIVERS (must be >= NUM_RIDERS).")
+        if MAX_DRIVERS < MIN_DRIVERS:
+            raise Exception("MAX_DRIVERS is less than MIN_DRIVERS.")
+        if DISTRIBUTION_MODE != "normal" and DISTRIBUTION_MODE != "uniform":
+            raise Exception("Invalid DISTRIBUTION_MODE.")
+
     @staticmethod
     def generate_drivers(num_drivers: int,
                          min_x: float,
@@ -110,7 +127,7 @@ class Simulation:
                 x = random.uniform(min_x, max_x)
                 y = random.uniform(min_y, max_y)
                 riders.append(Rider(x, y))
-                
+
         return riders
 
     @staticmethod
