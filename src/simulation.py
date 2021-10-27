@@ -23,7 +23,7 @@ class Simulation:
                          min_y: float,
                          max_y: float
     ) -> List[Driver]:
-        """Generate a list of Drivers uniformly distributed
+        """Generate a list of Drivers normally distributed
         between the min and max x & y.
         :param num_drivers: The number of Drivers to be generated
         :param min_x: Minimum x-coordinate within which to generate users
@@ -74,7 +74,7 @@ class Simulation:
                         min_y: float,
                         max_y: float
     ) -> List[Rider]:
-        """Generate a list of Riders uniformly distributed
+        """Generate a list of Riders normally distributed
         between the min and max x & y.
         :param num_riders: The number of Riders to be generated
         :param min_x: Minimum x-coordinate within which to generate users
@@ -101,8 +101,6 @@ class Simulation:
         :returns: distance between Point A and Point B"""
         return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
-    
-
     def start(self, num_drivers: int):
         """Start running a simulation for a given number of drivers.
         :param num_drivers: The number of Drivers to be tested"""
@@ -110,27 +108,26 @@ class Simulation:
         drivers = self.generate_drivers(num_drivers, MIN_X, MAX_X, MIN_Y, MAX_Y)
         riders = self.generate_riders(NUM_RIDERS, MIN_X, MAX_X, MIN_Y, MAX_Y)
 
-        # Calculate distances from all Drivers to all Riders.
-        distances = [[0 for i in range(NUM_RIDERS)] for j in range(num_drivers)]
-        for i in range(num_drivers):
-            d = drivers[i]
-            for j in range(NUM_RIDERS):
-                r = riders[j]
-                dist = self.get_distance((d.x, d.y), (r.x, r.y))
+        # Calculate distances from all Riders to all Drivers.
+        distances = [[0 for i in range(num_drivers)] for j in range(NUM_RIDERS)]
+        for i in range(NUM_RIDERS):
+            r = riders[i]
+            for j in range(num_drivers):
+                d = drivers[j]
+                dist = self.get_distance((r.x, r.y), (d.x, d.y))
                 distances[i][j] = dist
-        
-        # Pair Drivers with the Rider at minimum distance to them.
+
+        # Pair Riders with the Driver at minimum distance ot them.
         pairs = []  # Pairs Driver to distance to their Rider.
         max_distance = self.get_distance((MIN_X, MIN_Y), (MAX_X, MAX_Y)) + 1  # For marking paired Riders.
-        for i in range(num_drivers):
-            if i >= NUM_RIDERS:  # End once all Riders are paired.
-                break
-            d = drivers[i]
+        for i in range(NUM_RIDERS):
+            if i >= num_drivers:  # No more available Drivers; this should not happen.
+                raise Exception("Too few Drivers to pair with all Riders.")
             min_dist = min(distances[i])
-            min_dist_rider = distances[i].index(min_dist)
-            pairs.append((d, min_dist))
-            for j in range(num_drivers):
-                distances[j][min_dist_rider] = max_distance  # Mark that this Rider has been paired.
+            min_dist_driver = distances[i].index(min_dist)
+            pairs.append((drivers[min_dist_driver], min_dist))
+            for j in range(NUM_RIDERS):
+                distances[j][min_dist_driver] = max_distance  # Mark that this Driver has been paired.
 
         # Calculate wait times.
         wait_times = []
@@ -138,5 +135,5 @@ class Simulation:
             wait_times.append(p[1] / AVG_VELOCITY * 60 * 60)
         
         # Return the maximum wait time.
-        return max(wait_times),drivers,riders
+        return max(wait_times), drivers, riders
 
