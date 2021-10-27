@@ -10,6 +10,7 @@ MIN_Y = constants.MIN_Y
 MAX_Y = constants.MAX_Y
 NUM_RIDERS = constants.NUM_RIDERS
 AVG_VELOCITY = constants.AVG_VELOCITY
+DISTRIBUTION_MODE = constants.DISTRIBUTION_MODE
 SIGMA_R = constants.sigma_R
 SIGMA_D = constants.sigma_D
 
@@ -33,37 +34,46 @@ class Simulation:
         :returns: a list of Drivers generated
         """
         drivers = []
-        center_x = (min_x + max_x) / 2
-        center_y = (min_y + max_y) / 2
+        # If normal distribution is set in constants.py:
+        if DISTRIBUTION_MODE == 'normal':
+            center_x = (min_x + max_x) / 2
+            center_y = (min_y + max_y) / 2
 
-        mu_d_e = (min_x + center_x) / 2  # Driver center, east
-        mu_d_w = (center_x + max_x) / 2  # Driver center, west
-        mu_d_s = (min_y + center_y) / 2  # Driver center, south
-        mu_d_n = (center_y + max_y) / 2  # Driver center, north
+            mu_d_e = (min_x + center_x) / 2  # Driver center, east
+            mu_d_w = (center_x + max_x) / 2  # Driver center, west
+            mu_d_s = (min_y + center_y) / 2  # Driver center, south
+            mu_d_n = (center_y + max_y) / 2  # Driver center, north
 
-        # Generate SW Driver quadrant positions.
-        for _ in range(0, int(num_drivers / 4)):
-            x = random.normal(mu_d_w, SIGMA_D)
-            y = random.normal(mu_d_s, SIGMA_D)
-            drivers.append(Driver(x, y))
+            # Generate SW Driver quadrant positions.
+            for _ in range(0, int(num_drivers / 4)):
+                x = random.normal(mu_d_w, SIGMA_D)
+                y = random.normal(mu_d_s, SIGMA_D)
+                drivers.append(Driver(x, y))
 
-        # Generate NW Driver quadrant positions.
-        for _ in range(int(num_drivers / 4), int(2 * num_drivers / 4)):
-            x = random.normal(mu_d_w, SIGMA_D)
-            y = random.normal(mu_d_n, SIGMA_D)
-            drivers.append(Driver(x, y))
+            # Generate NW Driver quadrant positions.
+            for _ in range(int(num_drivers / 4), int(2 * num_drivers / 4)):
+                x = random.normal(mu_d_w, SIGMA_D)
+                y = random.normal(mu_d_n, SIGMA_D)
+                drivers.append(Driver(x, y))
 
-        # Generate SE Driver quadrant positions.
-        for _ in range(int(2 * num_drivers / 4), int(3 * num_drivers / 4)):
-            x = random.normal(mu_d_e, SIGMA_D)
-            y = random.normal(mu_d_s, SIGMA_D)
-            drivers.append(Driver(x, y))
+            # Generate SE Driver quadrant positions.
+            for _ in range(int(2 * num_drivers / 4), int(3 * num_drivers / 4)):
+                x = random.normal(mu_d_e, SIGMA_D)
+                y = random.normal(mu_d_s, SIGMA_D)
+                drivers.append(Driver(x, y))
 
-        # Generate NE Driver quadrant positions.
-        for _ in range(int(3 * num_drivers / 4), num_drivers):
-            x = random.normal(mu_d_e, SIGMA_D)
-            y = random.normal(mu_d_n, SIGMA_D)
-            drivers.append(Driver(x, y))
+            # Generate NE Driver quadrant positions.
+            for _ in range(int(3 * num_drivers / 4), num_drivers):
+                x = random.normal(mu_d_e, SIGMA_D)
+                y = random.normal(mu_d_n, SIGMA_D)
+                drivers.append(Driver(x, y))
+
+        # If uniform distribution is set in constants.py:
+        elif DISTRIBUTION_MODE == "uniform":
+            for _ in range(num_drivers):
+                x = random.uniform(min_x, max_x)
+                y = random.uniform(min_y, max_y)
+                drivers.append(Driver(x, y))
 
         return drivers
 
@@ -84,13 +94,23 @@ class Simulation:
         :returns: a list of Riders generated
         """
         riders = []
-        center_x = (min_x + max_x) / 2
-        center_y = (min_y + max_y) / 2
+        # If normal distribution is set in constants.py:
+        if DISTRIBUTION_MODE == 'normal':
+            center_x = (min_x + max_x) / 2
+            center_y = (min_y + max_y) / 2
 
-        for _ in range(num_riders):
-            x = random.normal(center_x, SIGMA_R)
-            y = random.normal(center_y, SIGMA_R)
-            riders.append(Rider(x, y))
+            for _ in range(num_riders):
+                x = random.normal(center_x, SIGMA_R)
+                y = random.normal(center_y, SIGMA_R)
+                riders.append(Rider(x, y))
+
+        # If uniform distribution is set in constants.py:
+        elif DISTRIBUTION_MODE == "uniform":
+            for _ in range(num_riders):
+                x = random.uniform(min_x, max_x)
+                y = random.uniform(min_y, max_y)
+                riders.append(Rider(x, y))
+                
         return riders
 
     @staticmethod
