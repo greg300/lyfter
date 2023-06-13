@@ -1,37 +1,49 @@
-# Team11_Minor
-Software Engineering 567, Team 11, Minor Project.
+# Lyfter
+## ECE 567 - Software Engineering
 
----
+A program to calculate customer wait times for a ride-share service, Lyfter. The program plots rider and driver positions in the area of service, efficiently pairs riders and drivers, and then calculates wait times for all riders. The program can be run in multiple iterations with varying number of drivers so that Lyfter can calculate wait times vs. number of available drivers.
+Developed by a team of four via an Agile development model conducted over 2 sprints.
 
-## Running on macOS 10.15+
+## Team Members
+Gregory Giovannini – <gregory.giovannini@rutgers.edu>
+
+Ian Herrighty – <imh30@scarletmail.rutgers.edu>
+
+Dawn Park – <dp863@scarletmail.rutgers.edu>
+
+Eric Schreiber – <ews44@scarletmail.rutgers.edu>
+
+## Usage
+
+### Running on macOS 10.15+
 
 Here are the steps for running the project on a local installation of Python 3 on macOS Catalina.
 
-### 1. Install all requirements:
+#### 1. Install all requirements:
 
 `$ pip install <requirement>` for all requirements in `requirements.txt`
 
-### 2. Run program in default mode (get `results.csv` output file):
+#### 2. Run program in default mode (get `results.csv` output file):
 
 `$ python src/main.py`
 
-### 3. Run program in answer mode (get a minimum number of Drivers):
+#### 3. Run program in answer mode (get a minimum number of Drivers):
 
 `$ python src/main.py 2`
 
 Note that changing `STEP_DRIVERS` in `constants.py` will yield a more precise answer.
 
-### 4. Run unittests for `simulation.py`:
+#### 4. Run unittests for `simulation.py`:
 
 `$ python src/tests_simulation.py`
 
-### 5. Run unittests for `analyzer.py`:
+#### 5. Run unittests for `analyzer.py`:
 
 `$ python src/tests_analyzer.py`
 
 ---
 
-## Running on Ubuntu 20.04
+### Running on Ubuntu 20.04
 
 Here are the steps for running the code in a virtual environment on
 Ubuntu 20.04.
@@ -65,7 +77,7 @@ Ubuntu 20.04.
 
 ---
 
-## Running on Windows
+### Running on Windows
 
 Running in Windows using VSCode requires installing Python, VSCode and
 Git. Here are directions for running `tests_simulation.py`:
